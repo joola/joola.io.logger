@@ -1,4 +1,2 @@
-joola.io.logger
-===============
-
-joola.io Logger Node
+# joola.io.logger
+joola.io's logger node
