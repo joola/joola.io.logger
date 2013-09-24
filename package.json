@@ -1,7 +1,7 @@
 {
   "name": "joola.io.logger",
   "preferGlobal": false,
-  "version": "3.0.2",
+  "version": "3.0.3",
   "author": "Joola <info@joo.la>",
   "description": "joola.io's logger node",
   "engine": "node >= 0.10.x",
@@ -21,7 +21,7 @@
       "email": "or@joo.la",
       "url": "http://joo.la"
     }
-  ],
+  ], 
   "scripts": {
     "test": "make test",
     "debug": "npm-inspector && npm start && open \"http://http://127.0.0.1:8080/debug?port=5858\"",
