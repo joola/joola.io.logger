@@ -21,7 +21,7 @@
       "email": "or@joo.la",
       "url": "http://joo.la"
     }
-  ],
+  ], 
   "scripts": {
     "test": "make test",
     "debug": "npm-inspector && npm start && open \"http://http://127.0.0.1:8080/debug?port=5858\"",
