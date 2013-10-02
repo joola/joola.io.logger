@@ -82,7 +82,7 @@ Copyright (c) 2012-2013 Joola Smart Solutions. GPLv3 Licensed, see [LICENSE][24]
 [21]: http://joo.la/#contact
 [22]: http://joola.io/
 [23]: http://ci.joo.la
-[24]: https://github.com/joola/joola.io/blob/master/LICENSE.md
+[24]: https://github.com/joola/joola.io.logger/blob/master/LICENSE.md
 [25]: https://joolatech.atlassian.net/wiki/display/JAD/Welcome
 [26]: https://joolatech.atlassian.net/wiki/display/JAD/Getting+Started
 [27]: https://joolatech.atlassian.net/wiki/display/JAD/Installing+joola.io
