@@ -35,9 +35,25 @@
     "coveralls": "mocha --require blanket --reporter mocha-lcov-reporter | node ./node_modules/coveralls/bin/coveralls.js",
     "citest": "mocha --reporter xunit > test-reports.xml"
   },
+  "bin": "./joola.io.logger",
   "main": "./lib/joola.io.logger",
   "dependencies": {
-    "winston": "*"
+    "joola.io.logger.transport":"x",
+
+    "express": "3.x",
+    "socket.io":"x",
+    "node-controlport": "0.x",
+    "jade": "0.x",
+    "path": "*",
+    "ncp": "*",
+    "async": "*",
+    "underscore": "*",
+    "winston": "*",
+    "request": "*",
+    "process": "*",
+    "nconf": "*",
+
+    "mongodb":"*"    
   },
   "devDependencies": {
     "closurecompiler": "*",
