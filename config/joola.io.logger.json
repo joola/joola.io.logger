@@ -1,0 +1,26 @@
+{
+  "version": "0.0.1",
+
+  "server": {
+    "port": 40006,
+    "udpport": 40007,
+    "securePort": 50006,
+    "secure": false,
+    "keyFile": "/certs/key.key",
+    "certFile": "/certs/cert.cert",
+    "controlPort": {
+      "enabled": true,
+      "port": 60006,
+      "secure": false,
+      "securePort": 70006,
+      "exitOnStop": true
+    }
+  },
+  "auth": {
+    "anonymous": false,
+    "whitelist": ["127.0.0.1"]
+  },
+  "mongo": {
+    "url": "mongodb://localhost/beacon"
+  }
+}
