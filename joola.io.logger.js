@@ -20,18 +20,19 @@ var
   https = require('https'),
   router = require('./routes/index'),
   express = require('express'),
-  mongo = require('./lib/mongo');
-
+  mongo = require('./lib/joola.io.logger/mongo'),
+  dgram = require("dgram");
 
 var app = global.app = express();
 var io;
+var udpserver = dgram.createSocket("udp4");
 
 //test
 
 var joola = {};
 global.joola = joola;
 joola.logger = logger;
-
+joola.io = io;
 //Configuration
 nconf.argv()
   .env()
@@ -49,6 +50,7 @@ joola.config = nconf;
 //Application settings
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
+app.use(express.favicon('public/assets/ico/favicon.ico'));
 app.use(express.compress());
 app.use(express.bodyParser());
 app.use(express.methodOverride());
@@ -87,7 +89,7 @@ var fetchLog = function (lastTimestamp, callback) {
 
       var filter = {};
       if (lastTimestamp.lastTimestamp)
-      filter._timestamp = {$gt: new Date(lastTimestamp.lastTimestamp)};
+        filter._timestamp = {$gt: new Date(lastTimestamp.lastTimestamp)};
       mongo.find(collection, filter, function (err, data) {
         if (err)
           return callback(err);
@@ -105,20 +107,6 @@ var startHTTP = function (callback) {
   var result = {};
   try {
     var _httpServer = http.createServer(app).listen(port,function (err) {
-      io = require('socket.io').listen(_httpServer);
-      io.set('log level', 0);
-      io.sockets.on('connection', function (socket) {
-
-        socket.on('last-log-fetch', function (data) {
-          fetchLog(data, function (err, data) {
-            if (err)
-              return socket.emit('last-log', {});
-
-            return socket.emit('last-log', data);
-          });
-        });
-      });
-
       if (err) {
         result.status = 'Failed: ' + ex.message;
         return callback(result);
@@ -143,6 +131,50 @@ var startHTTP = function (callback) {
     return callback(result);
   }
   return null;
+};
+
+var startSocketIO = function (callback) {
+  joola.io = io = require('socket.io').listen(httpServer);
+  io.set('log level', 0);
+  io.sockets.on('connection', function (socket) {
+    socket.on('last-log-fetch', function (data) {
+      fetchLog(data, function (err, data) {
+        if (err)
+          return socket.emit('last-log', {});
+
+        return socket.emit('last-log', data);
+      });
+    });
+  });
+  return callback();
+};
+
+var startUDP = function (callback) {
+  udpserver.on("error", function (err) {
+    console.log("server error:\n" + err.stack);
+    udpserver.close();
+    callback(err);
+  });
+
+  udpserver.on("close", function () {
+    console.log("server closed:\n");
+    callback(err);
+  });
+
+  udpserver.on("message", function (msg, rinfo) {
+    var document = JSON.parse(msg);
+    router.saveUDP(document, function () {
+    })
+  });
+
+  udpserver.on("listening", function () {
+    var address = udpserver.address();
+    console.log("server listening " +
+      address.address + ":" + address.port);
+    callback(null);
+  });
+
+  udpserver.bind(joola.config.get('server:udpport'));
 };
 
 var startHTTPS = function (callback) {
@@ -178,9 +210,13 @@ var startHTTPS = function (callback) {
 };
 
 startHTTP(function () {
-  if (nconf.get('server:secure') === true)
-    startHTTPS(function () {
+  startSocketIO(function () {
+    startUDP(function () {
+      if (nconf.get('server:secure') === true)
+        startHTTPS(function () {
+        });
     });
+  });
 });
 
 //Control Port
@@ -200,7 +236,11 @@ if (nconf.get('server:controlPort:enabled') === true) {
       exec: function (callback) {
         if (nconf.get('server:secure') === true) {
           startHTTP(function () {
-            startHTTPS(callback);
+            startSocketIO(function () {
+              startUDP(function () {
+                startHTTPS(callback);
+              });
+            })
           });
         }
         else {

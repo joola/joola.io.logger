@@ -1,7 +1,7 @@
 doctype 5
 html.wf-ffmetaserifwebpro-n5-active.wf-ffmetaserifwebpro-n7-active.wf-ffmetawebpro-n4-active.wf-active(lang='en')
   head
-    title joola.io.beacon
+    title joola.io.logger
     link(rel='stylesheet', href='/assets/css/site.css')
     script(src='/assets/js/jquery-1.10.1.min.js')
     script(src='/assets/js/timeago.js')
@@ -10,6 +10,7 @@ html.wf-ffmetaserifwebpro-n5-active.wf-ffmetaserifwebpro-n7-active.wf-ffmetawebp
   body
     div.left-nav
       img(src="/assets/img/logo.logger.png")
+      img.grip(src="/assets/img/grip.png")
       div.search
         input.searchbox(type="text")
       div.options
@@ -60,7 +61,11 @@ html.wf-ffmetaserifwebpro-n5-active.wf-ffmetaserifwebpro-n7-active.wf-ffmetawebp
           div.options-level-error
             input.chk-level(type="checkbox", checked="true", data-name="error")
             | Error
-
+        div.clear-both
+      div.control
+        button.pause-lines Pause
+        button.clear-lines Clear
+        
   div.console(id="console")
     a(href="#", id="tail", data-ember-action="54", style="top: 0px;")
       span(class="status")

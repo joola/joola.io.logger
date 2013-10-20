@@ -3,6 +3,7 @@
 
   "server": {
     "port": 40006,
+    "udpport": 40007,
     "securePort": 50006,
     "secure": false,
     "keyFile": "/certs/key.key",
@@ -19,7 +20,7 @@
     "anonymous": false,
     "whitelist": ["127.0.0.1"]
   },
-  "mongo":{
-    "url":"mongodb://db.joola.io/beacon"
+  "mongo": {
+    "url": "mongodb://localhost/beacon"
   }
 }

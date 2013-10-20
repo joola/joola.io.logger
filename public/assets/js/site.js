@@ -1,4 +1,6 @@
 var options = {
+  paused: false,
+  showLeft: true,
   showLines: {
     env: {
       "n/a": true,
@@ -57,6 +59,15 @@ function shouldShow(line, term) {
   return show;
 }
 
+function stripTime(timestamp) {
+  var result = '';
+  if (new Date().getDate() == timestamp.getDate())
+    result = timestamp.getHours().pad() + ':' + timestamp.getMinutes().pad() + ':' + timestamp.getSeconds().pad() + '.' + timestamp.getMilliseconds().pad(null, 3);
+  else
+    result = timestamp.getDate().pad() + '/' + (timestamp.getMonth().pad() + 1).pad().toString() + ' ' + timestamp.getHours().pad() + ':' + timestamp.getMinutes().pad() + ':' + timestamp.getSeconds().pad() + '.' + timestamp.getMilliseconds().pad(null, 3);
+  return result;
+}
+
 function drawLogLine(line) {
   //console.time('draw');
   var $line = $('<div class="line"></div>');
@@ -77,7 +88,9 @@ function drawLogLine(line) {
   var baseHeight = checkLineHeight($line);
 
   $line.addClass(line.level);
-  $timestamp.text(jQuery.timeago(line.timestamp));
+  //$timestamp.text(jQuery.timeago(line.timestamp));
+  $timestamp.text(stripTime(line.timestamp));
+
   $timestamp.attr('title', line.timestamp);
   $env.text(line.env);
   $env.addClass(line.env);
@@ -137,11 +150,19 @@ $(document).ready(function () {
     });
 
     if (data.length > 0 && tail)
-      $("html, body").animate({ scrollTop: $(document).height() }, "slow");
+      $("html, body").animate({ scrollTop: $(document).height() }, 0);
 
-    setTimeout(function () {
-      socket.emit('last-log-fetch', {lastTimestamp: lastTimestamp });
-    }, 500);
+    $('.grip').click();
+    
+    socket.on('log-line', function (item) {
+      if (options.paused)
+        return;
+      addLog(item);
+      lastTimestamp = item._timestamp;
+
+      if (item && tail)
+        $("html, body").animate({ scrollTop: $(document).height() }, 0);
+    });
   });
 
   socket.emit('last-log-fetch', {lastTimestamp: lastTimestamp });
@@ -157,7 +178,6 @@ $(document).ready(function () {
   else target.attachEvent("onmousewheel", MouseWheelHandler);
 
   function MouseWheelHandler(e) {
-    console.log('mouse');
     tail = false;
     $('#tail').removeClass('active');
   }
@@ -178,7 +198,7 @@ $(document).ready(function () {
 
 var zoomListeners = [];
 var call = function () {
-  //console.log('resize');
+
 };
 
 zoomListeners.push(call);
@@ -209,8 +229,6 @@ $().ready(function () {
 
     options.showLines[type][$this.attr('data-name')] = $this.prop('checked');
 
-    console.log(options);
-
     $('.line').each(function (index, line) {
       var $line = $(line);
       if (shouldShow($line))
@@ -220,8 +238,8 @@ $().ready(function () {
     });
 
     if (tail)
-      $("html, body").animate({ scrollTop: $(document).height() }, "slow");
-  })
+      $("html, body").animate({ scrollTop: $(document).height() }, 0);
+  });
 
   $('.searchbox').on('keyup', function (e) {
     var term = $(this).val();
@@ -244,5 +262,40 @@ $().ready(function () {
       else
         $line.hide();
     })
-  })
+  });
+
+  $('.clear-lines').on('click', function () {
+    $('.line').remove();
+  });
+
+  $('.pause-lines').on('click', function () {
+    options.paused = !options.paused;
+    if (options.paused)
+      $('.pause-lines').text('Continue');
+    else
+      $('.pause-lines').text('Pause');
+  });
+
+  $('.grip').on('click', function (e) {
+    options.showLeft = !options.showLeft;
+    if (!options.showLeft)
+      $('.left-nav').animate({ left: -390 }, "fast");
+    else
+      $('.left-nav').animate({ left: 0}, "fast");
+  });
 });
+
+
+Number.prototype.pad = function (fillWith, minLength) {
+  minLength = minLength || 2;
+  fillWith = fillWith || '0';
+
+  var result = this.toString();
+  if (result.length < minLength) {
+    for (var i = result.length; i < minLength; i++) {
+      result = fillWith + result;
+    }
+  }
+
+  return result;
+};
