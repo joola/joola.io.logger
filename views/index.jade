@@ -1,0 +1,84 @@
+doctype 5
+html.wf-ffmetaserifwebpro-n5-active.wf-ffmetaserifwebpro-n7-active.wf-ffmetawebpro-n4-active.wf-active(lang='en')
+  head
+    title joola.io.logger
+    link(rel='stylesheet', href='/assets/css/site.css')
+    script(src='/assets/js/jquery-1.10.1.min.js')
+    script(src='/assets/js/timeago.js')
+    script(src='/assets/js/jquery.dotdotdot.min.js')
+    script(src='/assets/js/site.js')
+  body
+    div.left-nav
+      img(src="/assets/img/logo.logger.png")
+      img.grip(src="/assets/img/grip.png")
+      div.search
+        input.searchbox(type="text")
+      div.options
+        div.options-env
+          h3 Environments
+          div.options-env-qa
+            input.chk-env(type="checkbox", checked="true", data-name="qa")
+            | QA 
+          div.options-env-staging
+            input.chk-env(type="checkbox", checked="true", data-name="staging")
+            | Staging          
+          div.options-env-demo
+            input.chk-env(type="checkbox", checked="true", data-name="demo")
+            | Demo
+          div.options-env-production
+            input.chk-env(type="checkbox", checked="true", data-name="production")
+            | Production
+
+        div.options-component
+          h3 Components
+          div.options-component-engine
+            input.chk-component(type="checkbox", checked="true", data-name="engine")
+            | Engine 
+          div.options-component-analytics
+            input.chk-component(type="checkbox", checked="true", data-name="analytics")
+            | Analytics
+          div.options-component-sdk
+            input.chk-component(type="checkbox", checked="true", data-name="sdk")
+            | SDK
+          div.options-component-config
+            input.chk-component(type="checkbox", checked="true", data-name="config")
+            | Configuration
+
+        div.options-level
+          h3 Level
+          div.options-level-silly
+            input.chk-level(type="checkbox", checked="true", data-name="silly")
+            | Silly
+          div.options-level-debug
+            input.chk-level(type="checkbox", checked="true", data-name="debug")
+            | Debug          
+          div.options-level-info
+            input.chk-level(type="checkbox", checked="true", data-name="info")
+            | Info
+          div.options-level-warn
+            input.chk-level(type="checkbox", checked="true", data-name="warn")
+            | Warning
+          div.options-level-error
+            input.chk-level(type="checkbox", checked="true", data-name="error")
+            | Error
+        div.clear-both
+      div.control
+        button.pause-lines Pause
+        button.clear-lines Clear
+        
+  div.console(id="console")
+    a(href="#", id="tail", data-ember-action="54", style="top: 0px;")
+      span(class="status")
+      label Follow logs
+    //div.line
+      span.timestamp ''
+      span.log-env demo
+      span.log-component engine
+      span.log-level info
+      span.message this is a test
+
+    //div.line this is a test
+
+
+    script(src="/socket.io/socket.io.js")
+        
