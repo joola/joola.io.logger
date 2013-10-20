@@ -96,7 +96,7 @@ var fetchLog = function (lastTimestamp, callback) {
         mongo.close(db, function () {
           return callback(null, data);
         });
-      })
+      });
     });
 
     return true;
@@ -164,7 +164,7 @@ var startUDP = function (callback) {
   udpserver.on("message", function (msg, rinfo) {
     var document = JSON.parse(msg);
     router.saveUDP(document, function () {
-    })
+    });
   });
 
   udpserver.on("listening", function () {
@@ -240,7 +240,7 @@ if (nconf.get('server:controlPort:enabled') === true) {
               startUDP(function () {
                 startHTTPS(callback);
               });
-            })
+            });
           });
         }
         else {
