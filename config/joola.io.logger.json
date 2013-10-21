@@ -18,9 +18,17 @@
   },
   "auth": {
     "anonymous": false,
-    "whitelist": ["127.0.0.1"]
+    "sessions": true,
+    "whitelist": ["127.0.0.1"],
+    "bypassToken": "1234",
+    "endpoint": {
+      "secure": false,
+      "host": "localhost",
+      "port": "40004",
+      "authToken": "d2ead440-eb12-11e2-91e2-0800200c9a66"
+    }
   },
   "mongo": {
-    "url": "mongodb://localhost/beacon"
+    "url": "mongodb://localhost/logger"
   }
 }

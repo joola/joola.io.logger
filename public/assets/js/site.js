@@ -14,7 +14,8 @@ var options = {
       engine: true,
       analytics: true,
       sdk: true,
-      config: true
+      config: true,
+      auth:true
     },
     level: {
       "n/a": true,
@@ -61,10 +62,11 @@ function shouldShow(line, term) {
 
 function stripTime(timestamp) {
   var result = '';
+  
   if (new Date().getDate() == timestamp.getDate())
     result = timestamp.getHours().pad() + ':' + timestamp.getMinutes().pad() + ':' + timestamp.getSeconds().pad() + '.' + timestamp.getMilliseconds().pad(null, 3);
   else
-    result = timestamp.getDate().pad() + '/' + (timestamp.getMonth().pad() + 1).pad().toString() + ' ' + timestamp.getHours().pad() + ':' + timestamp.getMinutes().pad() + ':' + timestamp.getSeconds().pad() + '.' + timestamp.getMilliseconds().pad(null, 3);
+    result = timestamp.getDate().pad() + '/' + (timestamp.getMonth() + 1).pad().toString() + ' ' + timestamp.getHours().pad() + ':' + timestamp.getMinutes().pad() + ':' + timestamp.getSeconds().pad() + '.' + timestamp.getMilliseconds().pad(null, 3);
   return result;
 }
 
@@ -153,7 +155,7 @@ $(document).ready(function () {
       $("html, body").animate({ scrollTop: $(document).height() }, 0);
 
     $('.grip').click();
-    
+
     socket.on('log-line', function (item) {
       if (options.paused)
         return;
@@ -291,11 +293,16 @@ Number.prototype.pad = function (fillWith, minLength) {
   fillWith = fillWith || '0';
 
   var result = this.toString();
-  if (result.length < minLength) {
-    for (var i = result.length; i < minLength; i++) {
-      result = fillWith + result;
+
+  try {
+    if (result.length < minLength) {
+      for (var i = result.length; i < minLength; i++) {
+        result = fillWith + result;
+      }
     }
   }
-
+  catch (ex) {
+    return result;
+  }
   return result;
 };

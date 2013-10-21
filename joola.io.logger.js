@@ -12,15 +12,16 @@
 global.logger_component = 'joola.io.logger';
 
 var
+  logger = require('./lib/joola.io.logger'),
+  mongo = require('./lib/joola.io.logger/mongo'),
+  router = require('./routes/index'),
+
   fs = require('fs'),
   nconf = require('nconf'),
   path = require('path'),
-  logger = require('./lib/joola.io.logger'),
   http = require('http'),
   https = require('https'),
-  router = require('./routes/index'),
   express = require('express'),
-  mongo = require('./lib/joola.io.logger/mongo'),
   dgram = require("dgram");
 
 var app = global.app = express();
@@ -54,19 +55,30 @@ app.use(express.favicon('public/assets/ico/favicon.ico'));
 app.use(express.compress());
 app.use(express.bodyParser());
 app.use(express.methodOverride());
+app.use(express.cookieParser());
+app.use(express.session({
+  secret: 'what-should-be-the-secret?',
+  maxAge: new Date(Date.now() + 3600000), //1 Hour
+  expires: new Date(Date.now() + 3600000) //1 Hour
+}));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Logger
-var winstonStream = {
-  write: function (message, encoding) {
-    joola.logger.info(message);
-  }
-};
 
-app.use(express.logger((global.test ? function (req, res) {
-} : {stream: winstonStream})));
+/*
+ var winstonStream = {
+ write: function (message, encoding) {
+ joola.logger.info(message);
+ }
+ };
+ app.use(express.logger((global.test ? function (req, res) {
+ } : {stream: winstonStream})));
+ */
 
+app.use(require('joola.io.auth')(joola.config.get('auth')));
+app.use(express.logger(function (req, res) {
+}));
 //Routes
 app.get('/', router.index);
 app.post('/save', router.save);
