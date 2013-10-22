@@ -295,7 +295,7 @@ body.login .login-wrapper {
 }
 
 body.login div.logo .logo-image {
-    background-image: url("/assets/img/logo.logger.png");
+    background-image: url('/assets/img/logo.logger.png');
     width: 301px;
     height: 50px;
 
