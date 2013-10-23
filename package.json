@@ -1,7 +1,7 @@
 {
   "name": "joola.io.logger",
   "preferGlobal": false,
-  "version": "3.1.1",
+  "version": "3.1.2",
   "author": "Joola <info@joo.la>",
   "description": "joola.io's logger node",
   "engine": "node >= 0.10.x",
@@ -35,8 +35,8 @@
     "coveralls": "mocha --require blanket --reporter mocha-lcov-reporter | node ./node_modules/coveralls/bin/coveralls.js",
     "citest": "mocha --reporter xunit > test-reports.xml"
   },
-  "bin": "./joola.io.logger",
-  "main": "./lib/joola.io.logger",
+  "bin": "./joola.io.logger.js",
+  "main": "./lib/joola.io.logger.js",
   "dependencies": {
     "joola.io.auth":"x",    
     
