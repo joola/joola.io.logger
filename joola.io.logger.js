@@ -61,7 +61,7 @@ app.use(express.session({
   maxAge: new Date(Date.now() + 3600000), //1 Hour
   expires: new Date(Date.now() + 3600000) //1 Hour
 }));
-
+app.use(require('joola.io.status')({baseDir:__dirname}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Logger

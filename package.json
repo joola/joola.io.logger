@@ -1,7 +1,7 @@
 {
   "name": "joola.io.logger",
   "preferGlobal": false,
-  "version": "3.1.2",
+  "version": "3.2.0",
   "author": "Joola <info@joo.la>",
   "description": "joola.io's logger node",
   "engine": "node >= 0.10.x",
@@ -38,8 +38,9 @@
   "bin": "./joola.io.logger.js",
   "main": "./lib/joola.io.logger.js",
   "dependencies": {
-    "joola.io.auth":"x",    
-    
+    "joola.io.auth":"3.x",
+    "joola.io.status":"3.x",
+
     "express": "3.x",
     "socket.io":"x",
     "node-controlport": "0.x",

@@ -104,7 +104,7 @@ a {
     padding: 1px 4px 1px 6px;
 }
 
-.status {
+.console .status {
     display: inline-block;
     width: 10px;
     height: 10px;
@@ -294,13 +294,20 @@ body.login .login-wrapper {
     margin-top: 300px;
 }
 
-body.login div.logo .logo-image {
+body.status div.logo .logo-image {
+    background-image: url('/assets/img/logo.logger.dark.png');
+    width: 301px;
+    height: 50px;
+}
+body.login div.logo .logo-image{
     background-image: url('/assets/img/logo.logger.png');
     width: 301px;
     height: 50px;
+}
 
+body.login div.logo .logo-image{
     margin-left: auto;
-    margin-right: auto;
+    margin-right: auto;    
 }
 
 body.login .inputs {
@@ -332,4 +339,15 @@ body.login div.message:not(:empty) {
     margin-top:10px;
     -moz-border-radius: 5px;
     border-radius: 5px;
+}
+.clear-both{
+    clear:both;
+}
+
+.left{
+    float:left;
+}
+
+.right{
+    float:right;
 }
