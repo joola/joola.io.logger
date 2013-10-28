@@ -1,0 +1,34 @@
+{
+  "version": "0.0.1",
+
+  "server": {
+    "port": 40006,
+    "udpport": 40007,
+    "securePort": 50006,
+    "secure": false,
+    "keyFile": "/certs/key.key",
+    "certFile": "/certs/cert.cert",
+    "controlPort": {
+      "enabled": true,
+      "port": 60006,
+      "secure": false,
+      "securePort": 70006,
+      "exitOnStop": true
+    }
+  },
+  "auth": {
+    "anonymous": false,
+    "sessions": true,
+    "whitelist": ["127.0.0.1"],
+    "bypassToken": "1234",
+    "endpoint": {
+      "secure": false,
+      "host": "localhost",
+      "port": "8080",
+      "authToken": "d2ead440-eb12-11e2-91e2-0800200c9a66"
+    }
+  },
+  "mongo": {
+    "url": "mongodb://localhost/logger"
+  }
+}
