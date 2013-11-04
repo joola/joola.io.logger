@@ -1,5 +1,5 @@
 # joola.io.logger
-Part of the [logger.io framework][14], the open-source data visualization framework.
+Part of the [joola.io framework][14], the open-source data visualization framework.
 
 [![Build Status][3]][4] [![dependency status][5]][6] [![dev dependency status][7]][8] [![Coverage Status][1]][2]
 

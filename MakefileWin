@@ -5,7 +5,7 @@ test:
 		"c:\program files\nodejs\node" node_modules\mocha\bin\_mocha -b --require blanket --reporter $(REPORTER)
 
 lint:
-		node node_modules\jshint\src\jshint lib\node-controlport.js
+		node node_modules\jshint\src\jshint lib\joola.io.logger.js
 
 test-cov:
 		$(MAKE) test REPORTER=spec
