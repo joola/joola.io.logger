@@ -35,8 +35,8 @@ exports.saveUDP = function (document, callback) {
 
   joola.io.sockets.emit('log-line', document);
   logger.save(document, function (err) {
-    if (err)
-      console.log(err);
+   // if (err)
+      //console.log(err);
   });
 
 };
