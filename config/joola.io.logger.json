@@ -17,7 +17,7 @@
     }
   },
   "auth": {
-    "anonymous": false,
+    "anonymous": true,
     "sessions": true,
     "whitelist": ["127.0.0.1"],
     "bypassToken": "1234",

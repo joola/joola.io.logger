@@ -1,5 +1,6 @@
 var options = {
   paused: false,
+  limit: 2,
   showLeft: true,
   showLines: {
     env: {
@@ -15,7 +16,7 @@ var options = {
       analytics: true,
       sdk: true,
       config: true,
-      auth:true
+      auth: true
     },
     level: {
       "n/a": true,
@@ -62,7 +63,7 @@ function shouldShow(line, term) {
 
 function stripTime(timestamp) {
   var result = '';
-  
+
   if (new Date().getDate() == timestamp.getDate())
     result = timestamp.getHours().pad() + ':' + timestamp.getMinutes().pad() + ':' + timestamp.getSeconds().pad() + '.' + timestamp.getMilliseconds().pad(null, 3);
   else
@@ -123,6 +124,7 @@ function drawLogLine(line) {
   }
 
   $('.console').append($line);
+  limitLines(options.limit);
   return $line;
 }
 
@@ -136,6 +138,15 @@ function addLog(log) {
   line.message = log.message;
 
   return drawLogLine(line);
+}
+
+function limitLines(limit) {
+  if ($('.line') && $('.line:visible:not(.ghostdiv)').length > limit) {
+    var lines = $('.line:visible').slice(1, limit+1);
+    lines.each(function (i, d) {
+      $(d).remove();
+    })
+  }
 }
 
 var lastTimestamp = null;
